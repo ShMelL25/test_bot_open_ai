@@ -23,8 +23,8 @@ class OpenAI_Assistent:
         
         return self.client.beta.threads.messages.create(
                     thread_id=thread.id,
-                    user_id=user_id,
-                    message=message
+                    role=user_id,
+                    content=message
                 )
     
     def send_message(self, thread, assistant):
@@ -46,3 +46,6 @@ class OpenAI_Assistent:
             time.sleep(.5)
             
         return run
+    
+    def get_response(self, thread):
+        return self.client.beta.threads.messages.list(thread_id=thread.id, order='asc')
