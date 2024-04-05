@@ -19,33 +19,33 @@ class OpenAI_Assistent:
     def create_thread(self):
         return self.client.beta.threads.create()
     
-    def message_create(self, thread, user_id:str, message:str):
+    def message_create(self, thread_id, user_id:str, message:str):
         
         return self.client.beta.threads.messages.create(
-                    thread_id=thread.id,
+                    thread_id=thread_id,
                     role=user_id,
                     content=message
                 )
     
-    def send_message(self, thread, assistant):
+    def send_message(self, thread_id, assistant_id):
         run = self.client.beta.threads.runs.create(
-                    thread_id=thread.id,
-                    assistant_id=assistant.id,
+                    thread_id=thread_id,
+                    assistant_id=assistant_id
                 )
         return self.wait_on_run(
                     run=run,
                     thread=thread
                          ) 
     
-    def wait_on_run(self, run, thread):
+    def wait_on_run(self, run, thread_id):
         while run.status == "queud" and run.status == "in_progress":
             run = self.client.beta.threads.runs.retrieve(
-                thread_id=thread.id,
+                thread_id=thread_id,
                 run_id=run.id
             )
             time.sleep(.5)
             
         return run
     
-    def get_response(self, thread):
-        return self.client.beta.threads.messages.list(thread_id=thread.id, order='asc')
+    def get_response(self, thread_id):
+        return self.client.beta.threads.messages.list(thread_id=thread_id, order='asc')
