@@ -34,7 +34,7 @@ class OpenAI_Assistent:
                 )
         return self.wait_on_run(
                     run=run,
-                    thread=thread
+                    thread_id=thread_id
                          ) 
     
     def wait_on_run(self, run, thread_id):
