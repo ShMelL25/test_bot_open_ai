@@ -9,11 +9,15 @@ class OpenAI_Assistent:
             api_key=os.environ.get("OPENAI_API_KEY", api_key),
         )
 
-    def create_assistent(self, name=None, instructions=None, model=None):
+    def create_assistent(self, 
+                         name=None, 
+                         instructions=None, 
+                         model=None):
+        
         return self.client.beta.assistants.create(
-                name="Леночка",
-                instructions="Добрый  день, я представляю группу компаний БИТУМ ЭКСПРЕС В ВАШ ДОМ. Мы производим высоскокачественный битум. Скажите вам это интересно?",
-                model="gpt-4"
+                name=name,
+                instructions=instructions,
+                model=model 
             )
     
     def create_thread(self):

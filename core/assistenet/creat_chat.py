@@ -2,10 +2,18 @@ from .model import OpenAI_Assistent
 
 class Message_Gen:
 
-    def __init__(self, assistent_kwargs):
+    def __init__(self):
         self.model = OpenAI_Assistent()
-        self.assistent = self.model.create_assistent(**assistent_kwargs)
+
+    def _assistent_(self, 
+                 assistent_kwargs, 
+                 assistent_api:str=None):
         
+        if assistent_api==None:
+            self.assistent = self.model.create_assistent(**assistent_kwargs)
+            self.assistent_id = self.assistent.id
+        return self.assistent
+
     def forming_message(
             self, 
             text:str, 
@@ -21,12 +29,12 @@ class Message_Gen:
                                 user_id=user_id,
                                 message=text
                                 )
-        return thread
+        return thread, message
     
     def send_mess(self, thread_id):
         run = self.model.send_message(
                 thread_id=thread_id,
-                assistant=self.assistent
+                assistant=self.assistent_id
             )
         return self.model.get_response(thread_id=thread_id)[-1]
     
